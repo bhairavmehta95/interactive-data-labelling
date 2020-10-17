@@ -226,7 +226,7 @@ class RewardSketcher(object):
             plt.close()
 
 if __name__ == "__main__":
-    env = 'FetchPush'
+    env = 'FetchSlide'
     for epoch in range(3, 31, 3):
         for episode in range(10):
             reward_csv = f"reward_{env}_{epoch}_{episode}.csv"
