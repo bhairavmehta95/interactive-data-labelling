@@ -5,9 +5,9 @@ import numpy as np
 import os.path as osp
 
 if __name__ == "__main__":
-    env = 'FetchPush'
-    for epoch in range(3, 31, 3):
-        for episode in range(10):
+    env = 'FetchSlide'
+    for epoch in range(21, 31, 3):
+        for episode in range(50):
             reward_csv = f"reward_{env}_{epoch}_{episode}.csv"
             episode_file = f'{env}-v1.h5'
 

@@ -227,8 +227,8 @@ class RewardSketcher(object):
 
 if __name__ == "__main__":
     env = 'FetchSlide'
-    for epoch in range(3, 31, 3):
-        for episode in range(10):
+    for epoch in range(21, 31, 3):
+        for episode in range(50):
             reward_csv = f"reward_{env}_{epoch}_{episode}.csv"
             episode_file = f'{env}-v1.h5'
             if not osp.exists(episode_file) or osp.exists(reward_csv): continue

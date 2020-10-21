@@ -6,15 +6,15 @@ import numpy as np
 DATASET_TYPES = {
     'expert': {
         'FetchSlide': [27, 30],
-        'FetchReach': [6],
-        'FetchPickAndPlace': [24, 27, 30],
-        'FetchPush': [24, 27, 30],
+        # 'FetchReach': [6],
+        # 'FetchPickAndPlace': [24, 27, 30],
+        # 'FetchPush': [24, 27, 30],
     },
     'medium': {
         'FetchSlide': [21, 24, 27, 30],
-        'FetchReach': [6],
-        'FetchPickAndPlace': [18, 21, 24, 27, 30],
-        'FetchPush': [18, 21, 24, 27, 30],
+        # 'FetchReach': [6],
+        # 'FetchPickAndPlace': [18, 21, 24, 27, 30],
+        # 'FetchPush': [18, 21, 24, 27, 30],
     }
 }
 
@@ -23,7 +23,7 @@ DATASET_TYPES = {
 
 
 if __name__ == "__main__":
-    datatypes = list(DATASET_TYPES.keys()) + ['all']
+    datatypes = list(DATASET_TYPES.keys()) #+ ['all']
     for env in DATASET_TYPES['expert'].keys():
         episode_file = f'{env}-v1.h5'
         obsindex = 3 if env == 'FetchReach' else 6
@@ -41,14 +41,16 @@ if __name__ == "__main__":
                         if epoch not in DATASET_TYPES[datatype][env]: continue
 
                     for episode in range(10):
-                        annotation_path = f'epoch_{epoch}/{episode}/rewards'
+                        annotation_path = f'epoch_{epoch}/{episode}/annotations'
                         observation_path = f'epoch_{epoch}/{episode}/observations'
+                        achieved_goal_path = f'epoch_{epoch}/{episode}/achieved_goals'
 
                         try:
                             ep_rew = hf[annotation_path]
                             ep_obs = hf[observation_path]
+                            ep_ag = hf[achieved_goal_path]
 
-                            truncated_obs = np.concatenate([ep_obs[:, :obsindex], ep_obs[:, -3:]], axis=1)
+                            truncated_obs = np.concatenate([ep_ag, ep_obs[:, -3:]], axis=1)
                         except:
                             print(f'Skipping {env}|{episode}|{epoch}') 
 
@@ -60,5 +62,5 @@ if __name__ == "__main__":
 
                 
                 dataset = np.concatenate([observations, np.array(rewards)[:, np.newaxis]], axis=1)
-                np.savetxt(f'{env}-v1-{datatype}-true.txt', dataset)
+                np.savetxt(f'{env}-v1-{datatype}-annotation-achievedgoal.txt', dataset)
                 
